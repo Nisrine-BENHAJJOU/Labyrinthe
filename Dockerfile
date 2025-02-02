@@ -1,27 +1,28 @@
 FROM ubuntu:20.04
 
-# Set the timezone non-interactively to avoid interactive prompts
+# Set timezone non-interactively to avoid prompts
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y tzdata
 
-# Install required dependencies
-RUN apt-get update && apt-get install -y cmake build-essential libboost-all-dev git wget curl unzip
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y cmake build-essential libboost-all-dev git wget curl unzip pkg-config g++ gcc
 
-# Clone vcpkg
-RUN git clone https://github.com/Microsoft/vcpkg.git /vcpkg
+# Clone a fresh copy of vcpkg
+RUN rm -rf /vcpkg
+RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg
 WORKDIR /vcpkg
 
-# Install additional dependencies for vcpkg before bootstrapping
-RUN apt-get install -y pkg-config g++ gcc
+# Give execution permissions to bootstrap script
+RUN chmod +x ./bootstrap-vcpkg.sh
 
-# Bootstrap vcpkg
-RUN ./bootstrap-vcpkg.sh
+# Run the bootstrap script
+RUN ./bootstrap-vcpkg.sh || cat bootstrap.log
 
-# Install the required libraries (Crow, nlohmann-json)
-RUN ./vcpkg/vcpkg install crow nlohmann-json
+# Install necessary libraries
+RUN ./vcpkg install crow nlohmann-json
 
 # Set environment variable for vcpkg
-ENV VCPKG_ROOT /vcpkg
+ENV VCPKG_ROOT=/vcpkg
 
 # Copy your C++ project into the container
 COPY . /app
