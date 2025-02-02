@@ -23,10 +23,10 @@ COPY . .
 RUN ls -l /app
 
 # Build your C++ project
-RUN g++ -o main main.cpp -I/vcpkg/installed/x64-linux/include -L/vcpkg/installed/x64-linux/lib -lcrow -lnlohmann-json
+RUN g++ -o Lab Lab.cpp -I/vcpkg/installed/x64-linux/include -L/vcpkg/installed/x64-linux/lib -lcrow -lnlohmann-json
 
 # Expose the port your Crow app runs on
 EXPOSE 8000
 
 # Start the application
-CMD ["./main"]
+CMD ["./Lab"]
