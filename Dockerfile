@@ -2,16 +2,12 @@ FROM ubuntu:20.04
 
 # Set timezone non-interactively to avoid prompts
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y tzdata
+RUN apt-get update && apt-get install -y tzdata git wget curl unzip pkg-config g++ gcc build-essential cmake libboost-all-dev 
 
 # Install vcpkg
-RUN rm -rf /vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg
 WORKDIR /vcpkg
 RUN chmod +x ./bootstrap-vcpkg.sh && ./bootstrap-vcpkg.sh || cat bootstrap.log
-
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y cmake build-essential libboost-all-dev git wget curl unzip pkg-config g++ gcc
 
 # Install necessary libraries
 RUN ./vcpkg install crow nlohmann-json
