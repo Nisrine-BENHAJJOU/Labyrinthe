@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: crow-backend
+    runtime: docker  # Using Docker for better dependency management
+    repo: https://github.com/Nisrine-BENHAJJOU/Labyrinthe  # Your GitHub repo
+    branch: main
+    envVars:
+      - key: PORT
+        value: 8000  # Adjust to your server's port
+    dockerfilePath: ./Dockerfile  # Path to your Dockerfile
