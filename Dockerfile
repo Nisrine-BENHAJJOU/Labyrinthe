@@ -22,6 +22,9 @@ COPY . .
 # Verify if main.cpp exists
 RUN ls -l /app
 
+RUN ls -l /vcpkg/installed/x64-linux/lib
+RUN ls -l /vcpkg/installed/x64-linux/include
+
 # Build your C++ project
 RUN g++ -o Lab Lab.cpp -I/vcpkg/installed/x64-linux/include -L/vcpkg/installed/x64-linux/lib -lcrow -lnlohmann-json
 
