@@ -1,0 +1,31 @@
+# Ignore build and output folders
+x64/
+Debug/
+Release/
+
+# Ignore Visual Studio-specific files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.VC.db
+.vs/
+
+# Ignore CMake-generated files
+CMakeCache.txt
+CMakeFiles/
+
+# Ignore log files
+logs/
+*.log
+
+# Ignore object files and binaries
+*.o
+*.obj
+*.exe
+*.out
+*.dll
+*.lib
+*.a
+*.so
