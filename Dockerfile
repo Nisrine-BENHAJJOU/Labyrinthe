@@ -1,5 +1,9 @@
 FROM ubuntu:20.04
 
+# Set the timezone non-interactively
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y tzdata
+
 # Update and install necessary dependencies
 RUN apt-get update && apt-get install -y \
     cmake \
