@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 # Set timezone non-interactively to avoid prompts
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y tzdata git wget curl unzip pkg-config g++ gcc build-essential cmake libboost-all-dev 
+RUN apt-get update && apt-get install -y tzdata git wget curl zip unzip tar pkg-config g++ gcc build-essential cmake libboost-all-dev 
 
 # Install vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg
