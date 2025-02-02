@@ -16,8 +16,11 @@ RUN ./vcpkg install crow nlohmann-json
 ENV VCPKG_ROOT=/vcpkg
 
 # Copy your C++ project into the container
-COPY . /app
 WORKDIR /app
+COPY . .
+
+# Verify if main.cpp exists
+RUN ls -l /app
 
 # Build your C++ project
 RUN g++ -o main main.cpp -I/vcpkg/installed/x64-linux/include -L/vcpkg/installed/x64-linux/lib -lcrow -lnlohmann-json
