@@ -4,19 +4,14 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y tzdata
 
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y cmake build-essential libboost-all-dev git wget curl unzip pkg-config g++ gcc
-
-# Clone a fresh copy of vcpkg
+# Install vcpkg
 RUN rm -rf /vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg
 WORKDIR /vcpkg
+RUN chmod +x ./bootstrap-vcpkg.sh && ./bootstrap-vcpkg.sh || cat bootstrap.log
 
-# Give execution permissions to bootstrap script
-RUN chmod +x ./bootstrap-vcpkg.sh
-
-# Run the bootstrap script
-RUN ./bootstrap-vcpkg.sh || cat bootstrap.log
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y cmake build-essential libboost-all-dev git wget curl unzip pkg-config g++ gcc
 
 # Install necessary libraries
 RUN ./vcpkg install crow nlohmann-json
