@@ -22,6 +22,7 @@ COPY . .
 # Verify if main.cpp exists
 RUN ls -l /app
 
+RUN ls -l /vcpkg/installed/
 RUN ls -l /vcpkg/installed/x64-linux/lib
 RUN ls -l /vcpkg/installed/x64-linux/include
 
