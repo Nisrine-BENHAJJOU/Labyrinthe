@@ -25,6 +25,8 @@ COPY . .
 RUN ls -l /app
 
 RUN ls -l /vcpkg/installed/
+RUN ls -l /vcpkg/installed/x64-linux
+
 RUN ls -l /vcpkg/installed/x64-linux/lib
 RUN ls -l /vcpkg/installed/x64-linux/include
 
