@@ -121,14 +121,20 @@ int main() {
 
     cors.global()
     .headers("X-Custom-Header", "Upgrade-Insecure-Requests")
-    .methods("POST"_method, "GET"_method)
+    .methods("POST"_method, "GET"_method, "OPTIONS"_method) // Add OPTIONS method
     .prefix("/cors")
     .origin("http://localhost:3000") // Keep this for local testing
-    .origin("https://labyrinthe-323xiq423-nisrines-projects-e2ce8147.vercel.app") // Add your Vercel frontend URL
+    .origin("https://labyrinthe.vercel.app") // Add your Vercel frontend URL
     .prefix("/nocors")
     .ignore();
 
 
+    CROW_ROUTE(app, "/cors").methods("OPTIONS"_method)([](const crow::request& req) {
+        crow::response res;
+        res.code = 204; // No content
+        return res;
+    });
+    
     CROW_ROUTE(app, "/cors").methods("POST"_method)([](const crow::request& req) {
         auto data = json::parse(req.body);
         std::vector<std::vector<int>> grid = data["grid"];
