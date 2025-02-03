@@ -119,8 +119,15 @@ int main() {
     crow::App<crow::CORSHandler> app;
     auto& cors = app.get_middleware<crow::CORSHandler>().global();
 
-    cors.global().headers("X-Custom-Header", "Upgrade-Insecure-Requests").methods("POST"_method, "GET"_method)
-        .prefix("/cors").origin("http://localhost:3000").prefix("/nocors").ignore();
+    cors.global()
+    .headers("X-Custom-Header", "Upgrade-Insecure-Requests")
+    .methods("POST"_method, "GET"_method)
+    .prefix("/cors")
+    .origin("http://localhost:3000") // Keep this for local testing
+    .origin("https://labyrinthe-323xiq423-nisrines-projects-e2ce8147.vercel.app") // Add your Vercel frontend URL
+    .prefix("/nocors")
+    .ignore();
+
 
     CROW_ROUTE(app, "/cors").methods("POST"_method)([](const crow::request& req) {
         auto data = json::parse(req.body);
