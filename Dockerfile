@@ -4,12 +4,14 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y tzdata git wget curl zip unzip tar pkg-config g++ gcc build-essential cmake libboost-all-dev 
 
-# Install vcpkg
+# Clone and bootstrap vcpkg
+RUN rm -rf /vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg
 WORKDIR /vcpkg
-RUN chmod +x ./bootstrap-vcpkg.sh && ./bootstrap-vcpkg.sh || cat bootstrap.log
+RUN chmod +x ./bootstrap-vcpkg.sh && ./bootstrap-vcpkg.sh
 
 # Install necessary libraries
+WORKDIR /vcpkg
 RUN ./vcpkg install crow:x64-linux nlohmann-json:x64-linux
 
 # Set environment variable for vcpkg
