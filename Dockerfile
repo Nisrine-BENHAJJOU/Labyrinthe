@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 # Set timezone non-interactively to avoid prompts
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y tzdata git wget curl zip unzip tar pkg-config g++ gcc build-essential cmake libboost-all-dev 
+RUN apt-get update && apt-get install -y tzdata git wget curl zip unzip tar pkg-config g++ gcc build-essential cmake libboost-all-dev ninja-build
 
 # Clone and bootstrap vcpkg
 RUN rm -rf /vcpkg
@@ -28,7 +28,7 @@ RUN ls -l /vcpkg/installed/
 RUN ls -l /vcpkg/installed/x64-linux
 
 # Build your C++ project
-RUN g++ -o Lab Lab.cpp -I/vcpkg/installed/x64-linux/include
+RUN g++ -o Lab Lab.cpp -I/vcpkg/installed/x64-linux/include -lpthread
 
 # Expose the port your Crow app runs on
 EXPOSE 8000
