@@ -131,11 +131,20 @@ int main() {
 
     CROW_ROUTE(app, "/cors").methods("OPTIONS"_method)([](const crow::request& req) {
         crow::response res;
-        res.code = 204; // No content
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "POST, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type");
+        res.code = 204;
         return res;
     });
     
     CROW_ROUTE(app, "/cors").methods("POST"_method)([](const crow::request& req) {
+        crow::response res;
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "POST, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type");
+
+        try {
         auto data = json::parse(req.body);
         std::vector<std::vector<int>> grid = data["grid"];
 
@@ -165,9 +174,15 @@ int main() {
         for (const auto& p : path) {
             response["path"].push_back({ p.row, p.col });
         }
-
-        return crow::response(200, response.dump());
-       });
+            res.body = response.dump();
+            res.code = 200;
+        }
+        catch (const std::exception& e) {
+            res.code = 500;
+            res.body = json{ {"error", e.what()} }.dump();
+        }
+        return res;
+    });
 
     std::cout << "Server started on port 8000" << std::endl;
     app.port(8000).multithreaded().run();
