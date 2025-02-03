@@ -10,7 +10,7 @@ WORKDIR /vcpkg
 RUN chmod +x ./bootstrap-vcpkg.sh && ./bootstrap-vcpkg.sh || cat bootstrap.log
 
 # Install necessary libraries
-RUN ./vcpkg install crow nlohmann-json
+RUN ./vcpkg install crow:x64-linux nlohmann-json:x64-linux
 
 # Set environment variable for vcpkg
 ENV VCPKG_ROOT=/vcpkg
