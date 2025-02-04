@@ -1,5 +1,12 @@
-# Use a Windows Server Core base image
-FROM mcr.microsoft.com/windows/servercore:ltsc2022
+FROM ubuntu:latest
+
+# Install Wine and dependencies
+RUN apt-get update && \
+    apt-get install -y wine && \
+    apt-get clean
+
+# Set the working directory
+WORKDIR /app
 
 # Set the working directory
 WORKDIR /app
@@ -16,4 +23,4 @@ COPY VCRUNTIME140_1D.dll .
 EXPOSE 8000
 
 # Run the .exe file
-CMD ["Lab.exe"]
+CMD ["wine","Lab.exe"]
